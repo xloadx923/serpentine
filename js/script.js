@@ -1,4 +1,5 @@
-const snake = ["👀","⬛️"];
+let direction = 'left';
+const snake = ["👀","⬜️","⬜️"];
 const pos_X = document.getElementById('posX');
 const pos_Y = document.getElementById('posY');
 const canvas = document.getElementById('canvas');
@@ -18,26 +19,26 @@ const snake_detail = {
     posY: canva_detail.CANVA_HEIGHT / 2,
     SNAKE_WIDTH: 10,
     SNAKE_HEIGHT: 10,
-    SNAKE_SIZE: 15,
+    SNAKE_SIZE: 20,
     velocity: 3
 }
 
-let direction = 'left';
-function serpentine(){
-    ctx.beginPath();
-    ctx.font = snake_detail.SNAKE_SIZE+'px serif'
-    ctx.fillText(snake[0], snake_detail.posX, snake_detail.posY);
-    ctx.stroke();
-    ctx.closePath();
-}
 function getRandomNumber(min, max){
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min);
 }
 
+function serpentine(){
+    ctx.beginPath();
+    ctx.font = snake_detail.SNAKE_SIZE+'px serif'
+    ctx.fillText(snake[0]+snake[1]+snake[2], snake_detail.posX, snake_detail.posY);
+    ctx.stroke();
+    ctx.closePath();
+}
+
 // random pour la cible du snake
-console.log(getRandomNumber(canva_detail.CANVA_WIDTH, canva_detail.CANVA_HEIGHT));
+// console.log(getRandomNumber(canva_detail.CANVA_WIDTH, canva_detail.CANVA_HEIGHT));
 
 function move_snake(){
     pos_X.innerText = snake_detail.posX;
@@ -53,13 +54,39 @@ function move_snake(){
     if(direction == 'down') snake_detail.posY = snake_detail.posY + snake_detail.velocity;
 }
 
-//
+function drawGrid() {
+    ctx.canvas.width  = canva_detail.CANVA_WIDTH;
+    ctx.canvas.height = canva_detail.CANVA_HEIGHT;
 
+    const data = `<svg width="${canva_detail.CANVA_WIDTH}" height="${canva_detail.CANVA_HEIGHT}"  xmlns="http://www.w3.org/2000/svg"> `+
+                `   <defs>`+
+                `       <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">`+
+                `           <path d="M 20 0 L 0 0 0 20" fill="none" stroke="white" stroke-width="1" />`+
+                `       </pattern>`+
+                `   </defs>`+
+                `   <rect width="100%" height="100%" fill="url(#smallGrid)"/>`+
+                `</svg>`;
+
+    const DOMURL = window.URL || window.webkitURL || window || document;
+
+    const img = new Image();
+    const svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+    const url = DOMURL.createObjectURL(svg);
+
+    img.onload = function () {
+        ctx.drawImage(img, 0, 0);
+        DOMURL.revokeObjectURL(url);
+    }
+    img.src = url;
+}
+
+//
 function updateScreen(){
     requestAnimationFrame(updateScreen);
     ctx.clearRect(0, 0, canva_detail.CANVA_HEIGHT, canva_detail.CANVA_HEIGHT);
     serpentine();
     move_snake();
+    
 }
 
 document.addEventListener('keydown', (e) => {
@@ -69,33 +96,3 @@ document.addEventListener('keydown', (e) => {
     if(e.key == "ArrowDown")    direction = 'down';
 });
 updateScreen();
-
-function drawGrid() {
-    ctx.canvas.width  = canva_detail.CANVA_HEIGHT;
-    ctx.canvas.height = canva_detail.CANVA_HEIGHT;
-
-    const data = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
-        <defs> \
-        <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse"> \
-            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="white" stroke-width="1" /> \
-        </pattern> \
-            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"> \
-                <rect width="80" height="80" fill="url(#smallGrid)" /> \
-                <path d="M 80 0 L 0 0 0 80" fill="none" stroke="black" stroke-width="1" /> \
-            </pattern> \
-        </defs> \
-        <rect width="100%" height="100%" fill="url(#smallGrid)" /> \
-    </svg>';
-
-    const DOMURL = window.URL || window.webkitURL || window;
-
-    const img = new Image();
-    const svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
-    const url = DOMURL.createObjectURL(svg);
-
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0);
-      DOMURL.revokeObjectURL(url);
-    }
-    img.src = url;
-}

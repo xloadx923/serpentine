@@ -26,14 +26,13 @@ canvas{
     height: 800px;
     border: solid gray 1px;
 }
-#smallGrid{
-    background-color: white;
-}
 main{
     grid-row: 2;
     grid-column: 2;
-    height: 750px;
+    width: 600px;
+    height: 800px;
     text-align: center;
+    /* background: url(../img/background.jpg); */
 }
 footer{
 
@@ -45,7 +44,7 @@ footer{
     z-index: 10;
     width: 100px;
     margin-top: 0.7rem;
-    padding: 1rem;
+    padding: .5rem;
     background-color: white;
     color: black;
     text-shadow: none;
