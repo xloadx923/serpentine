@@ -1,4 +1,4 @@
-
+const snake = ["👀","⬛️"];
 const pos_X = document.getElementById('posX');
 const pos_Y = document.getElementById('posY');
 const canvas = document.getElementById('canvas');
@@ -7,46 +7,49 @@ const ctx = canvas.getContext('2d');
 const canva_detail = {
     name: 'canvas',
     color: 'gray',
-    width: 600,
-    height: 800
+    CANVA_WIDTH: 600,
+    CANVA_HEIGHT: 800
 }
 
-const snake = {
+const snake_detail = {
+    SNAKE_HEAD: snake[0],
     color: 'rgb(255,255,255)',
-    posX: canvas.width / 2,
-    posY: canvas.height / 2,
-    width: 5,
-    height: 5,
-    velocity: 1
+    posX: canva_detail.CANVA_WIDTH / 2,
+    posY: canva_detail.CANVA_HEIGHT / 2,
+    SNAKE_WIDTH: 10,
+    SNAKE_HEIGHT: 10,
+    SNAKE_SIZE: 15,
+    velocity: 3
 }
 
 let direction = 'left';
 function serpentine(){
     ctx.beginPath();
-    ctx.fillStyle = snake.color;
-    ctx.fillRect(snake.posX, snake.posY, snake.width, snake.height);
+    ctx.font = snake_detail.SNAKE_SIZE+'px serif'
+    ctx.fillText(snake[0], snake_detail.posX, snake_detail.posY);
     ctx.stroke();
     ctx.closePath();
 }
 function move_snake(){
-    pos_X.innerText = snake.posX;
-    pos_Y.innerText = snake.posY;
-    if(snake.posX < 0) snake.posX = canva_detail.width / 2;
-    if(snake.posX > canva_detail.width / 2) snake.posY = 0;
-    if(snake.posY < 0) snake.posY = canva_detail.height / 2;
-    if(snake.posY > canva_detail.height / 2) snake.posY = 0;
+    pos_X.innerText = snake_detail.posX;
+    pos_Y.innerText = snake_detail.posY;
+    if(snake_detail.posX < 0) snake_detail.posX = canva_detail.CANVA_WIDTH;
+    if(snake_detail.posX > canva_detail.CANVA_WIDTH) snake_detail.posX = 0;
+    if(snake_detail.posY < 0) snake_detail.posY = canva_detail.CANVA_HEIGHT;
+    if(snake_detail.posY > canva_detail.CANVA_HEIGHT) snake_detail.posY = 0;
 
-    if(direction == 'left') snake.posX = snake.posX - snake.velocity;
-    if(direction == 'right')snake.posX = snake.posX + snake.velocity;
-    if(direction == 'up')   snake.posY = snake.posY - snake.velocity;
-    if(direction == 'down') snake.posY = snake.posY + snake.velocity;
+    if(direction == 'left') snake_detail.posX = snake_detail.posX - snake_detail.velocity;
+    if(direction == 'right')snake_detail.posX = snake_detail.posX + snake_detail.velocity;
+    if(direction == 'up')   snake_detail.posY = snake_detail.posY - snake_detail.velocity;
+    if(direction == 'down') snake_detail.posY = snake_detail.posY + snake_detail.velocity;
 }
+console.log(canva_detail.width);
 
 //
 
 function updateScreen(){
     requestAnimationFrame(updateScreen);
-    ctx.clearRect(0, 0, canva_detail.width, canva_detail.height);
+    ctx.clearRect(0, 0, canva_detail.CANVA_HEIGHT, canva_detail.CANVA_HEIGHT);
     serpentine();
     move_snake();
 }
@@ -71,8 +74,8 @@ document.addEventListener('keydown', (e) => {
 updateScreen();
 
 function drawGrid() {
-    ctx.canvas.width  = canva_detail.width;
-    ctx.canvas.height = canva_detail.height;
+    ctx.canvas.width  = canva_detail.CANVA_HEIGHT;
+    ctx.canvas.height = canva_detail.CANVA_HEIGHT;
 
     const data = '<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"> \
         <defs> \
