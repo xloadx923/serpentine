@@ -1,0 +1,60 @@
+:root{
+    font-size: 12px;
+    --background: rgb(43, 46, 42);
+    --font-color: rgb(255, 255, 255);
+}
+
+body{
+    background-color: var(--background);
+    display: grid;
+    grid-template-columns: 1fr 600px 1fr;
+    grid-template-rows: 10% 800px 1fr;
+}
+
+header{
+    grid-row: 1;
+    grid-column: 2;
+    height: 7vh;
+    color: var(--font-color);
+    text-shadow: 0 2px 0 gray;
+    width: 100%;
+    text-align: center;
+    background-color: rgb(186, 209, 172);
+}
+canvas{
+    display: grid;
+    grid-template-columns: repeat(60, 5);
+    grid-template-rows: repeat(60, 5);
+    width: 600px;
+    height: 800px;
+    border: solid gray 1px;
+}
+#smallGrid{
+    background-color: white;
+}
+main{
+    grid-row: 2;
+    grid-column: 2;
+    height: 750px;
+    text-align: center;
+}
+footer{
+
+}
+.moveSnake{
+    left: 0;
+    top: 0;
+    position: absolute;
+    z-index: 10;
+    width: 100px;
+    margin-top: 0.7rem;
+    padding: 1rem;
+    background-color: white;
+    color: black;
+    text-shadow: none;
+    white-space: pre-line;
+}
+.moveSnake span{
+    background-color: yellow;
+    padding: 0 1rem;
+}
