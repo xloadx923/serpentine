@@ -30,6 +30,15 @@ function serpentine(){
     ctx.stroke();
     ctx.closePath();
 }
+function getRandomNumber(min, max){
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+// random pour la cible du snake
+console.log(getRandomNumber(canva_detail.CANVA_WIDTH, canva_detail.CANVA_HEIGHT));
+
 function move_snake(){
     pos_X.innerText = snake_detail.posX;
     pos_Y.innerText = snake_detail.posY;
@@ -43,7 +52,6 @@ function move_snake(){
     if(direction == 'up')   snake_detail.posY = snake_detail.posY - snake_detail.velocity;
     if(direction == 'down') snake_detail.posY = snake_detail.posY + snake_detail.velocity;
 }
-console.log(canva_detail.width);
 
 //
 
@@ -55,21 +63,10 @@ function updateScreen(){
 }
 
 document.addEventListener('keydown', (e) => {
-    if(e.key == "ArrowLeft"){
-        direction = 'left';
-    }
-    if(e.key == "ArrowRight"){
-        direction = 'right';
-    }
-    if(e.key == "ArrowUp"){
-        direction = 'up';
-    }
-    if(e.key == "ArrowDown"){
-        direction = 'down';
-    }
-    if(e.key == "Enter"){
-        updateScreen();
-    }
+    if(e.key == "ArrowLeft")    direction = 'left';
+    if(e.key == "ArrowRight")   direction = 'right';
+    if(e.key == "ArrowUp")      direction = 'up';
+    if(e.key == "ArrowDown")    direction = 'down';
 });
 updateScreen();
 
